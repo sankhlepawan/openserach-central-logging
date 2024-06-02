@@ -1,0 +1,19 @@
+# FROM docker.elastic.co/logstash/logstash:7.10.2
+
+# RUN rm -f /usr/share/logstash/pipeline/logstash.conf
+
+# COPY config/logstash.conf /usr/share/logstash/pipeline/
+
+# COPY config/logstash.conf /usr/share/logstash/
+
+# Use the official Logstash base image
+FROM docker.elastic.co/logstash/logstash:7.10.2
+
+# Copy the Logstash configuration file into the container
+COPY config/logstash.conf /usr/share/logstash/pipeline/logstash.conf
+
+# Expose the necessary ports
+EXPOSE 5044
+
+# Run Logstash
+CMD ["-f", "/usr/share/logstash/pipeline/logstash.conf"]

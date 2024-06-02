@@ -1,0 +1,9 @@
+filebeat.inputs:
+
+- type: filestream
+  id: my-filestream-id 
+  paths:
+    - /Users/pawansankhle/Documents/workspace/logs/*.log
+# — — — — — — — — — — Logstash output — — — — — — — — — —
+output.logstash:
+  hosts: ["logstash:5044"]

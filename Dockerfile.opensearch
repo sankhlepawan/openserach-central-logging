@@ -1,0 +1,24 @@
+# Use the official OpenSearch image as the base image
+FROM opensearchproject/opensearch:2
+
+# Copy custom configuration file to the container
+# COPY config/opensearch.yml /usr/share/opensearch/config/opensearch.yml
+
+RUN sed -i 's/plugins.security.ssl.http.enabled: true/plugins.security.ssl.http.enabled: false/g' /usr/share/opensearch/config/opensearch.yml
+
+RUN echo "plugins.security.disabled: true" >> /usr/share/opensearch/config/opensearch.yml
+
+
+# Health check (optional)
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD curl -f http://localhost:9200 || exit 1
+
+# Run as non-root user (optional, but recommended for security)
+USER opensearch
+
+# Define the entry point
+ENTRYPOINT ["/usr/share/opensearch/bin/opensearch"]
+
+
+
+

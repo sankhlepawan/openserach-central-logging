@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Console appender for local development -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Appender for sending logs to Logstash via TCP -->
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <param name="Encoding" value="UTF-8"/>
+        <!-- Set your Logstash server's host -->
+        <destination>localhost:5044</destination>  <!-- Change to your Logstash host and port -->
+
+        <!-- Encoder for formatting log messages in JSON -->
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"app_name":"cortex", "app_port": "8080"}</customFields>
+        </encoder>
+        <!-- Optional: configuration for reconnection attempts -->
+        <reconnectionDelay>10000</reconnectionDelay>
+
+    </appender>
+
+    <springProfile name="local">
+        <root level="INFO">
+            <appender-ref ref="console"/>
+            <appender-ref ref="logstash"/>
+        </root>
+    </springProfile>
+</configuration>

@@ -1,9 +1,9 @@
 filebeat.inputs:
-
-- type: filestream
-  id: my-filestream-id 
-  paths:
-    - /Users/pawansankhle/Documents/workspace/logs/*.log
+  - type: filestream
+    id: my-filestream-id
+    enabled: true
+    paths:
+      - /Users/pawansankhle/Documents/workspace/logs/cortex.log
 # — — — — — — — — — — Logstash output — — — — — — — — — —
 output.logstash:
-  hosts: ["logstash:5044"]
+  hosts: ["logstash:5045"]
